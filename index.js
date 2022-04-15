@@ -10,13 +10,13 @@ const qrcode = require('qrcode-terminal')
 const { state, saveState } = useSingleFileAuthState('./session.json')
 
 const start = () => {
-  const inky = makeWASocket({
+	const conn = makeWASocket({
 		logger: P({ level: 'silent' }),
 		printQRInTerminal: true,
 		auth: state,
 	})
-  
-  inky.ev.on('connection.update', (update) => {
+	
+	conn.ev.on('connection.update', (update) => {
 		const { connection, lastDisconnect } = update
 		if (connection === 'close') {
 			lastDisconnect.error?.output?.statusCode !== DisconnectReason.loggedOut ? start() : console.log('El bot ha sido desconectado')
@@ -25,5 +25,7 @@ const start = () => {
 		}
 	})
 	
-	inky.ev.on('creds.update', saveState)
+	conn.ev.on('creds.update', saveState)
 }
+
+start()
