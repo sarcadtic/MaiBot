@@ -75,7 +75,7 @@ break
 			
 			console.log(isError)
 		}
-	}
+	})
 }
 
 start()
