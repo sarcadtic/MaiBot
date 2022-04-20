@@ -11,9 +11,9 @@ const qrcode = require('qrcode-terminal')
 const { state, saveState } = useSingleFileAuthState('./session.json')
 
 const prefix = '.'
-const ownerNumber = ['50760303041']
+const ownerNumber = ['595995660558']
 
-const start = () => {
+const connectToWA = () => {
 	const conn = makeWASocket({
 		logger: P({ level: 'silent' }),
 		printQRInTerminal: true,
@@ -23,7 +23,7 @@ const start = () => {
 	conn.ev.on('connection.update', (update) => {
 		const { connection, lastDisconnect } = update
 		if (connection === 'close') {
-			lastDisconnect.error?.output?.statusCode !== DisconnectReason.loggedOut ? start() : console.log('El bot ha sido desconectado')
+			lastDisconnect.error?.output?.statusCode !== DisconnectReason.loggedOut ? connectToWA() : console.log('El bot ha sido desconectado')
 		} else if (connection === 'open') {
 			console.log('Bot conectado')
 		}
@@ -66,7 +66,7 @@ const start = () => {
 			switch (command) {
 
 case 'hola':
-reply('Hola como estas? :D')
+reply(`Hola ${pushname} como estas? :D`)
 break
 
 			}
@@ -79,4 +79,4 @@ break
 	})
 }
 
-start()
+connectToWA()
